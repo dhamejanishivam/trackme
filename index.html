@@ -3,14 +3,1280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-  <style>
-    body{
-      background:black;
-    }
-  </style>
+    <title>CYBER TRACK :: TOTAL SURVEILLANCE MODE</title>
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #d300c5;
+            --neon-green: #00ff9d;
+            --neon-red: #ff0000;
+            --dark-bg: #0d0221;
+            --darker-bg: #050110;
+            --text-color: #d1f7ff;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch::before {
+            color: var(--neon-blue);
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+        
+        .glitch::after {
+            color: var(--neon-pink);
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        .terminal {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue), 
+                         0 0 30px var(--neon-purple);
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(90deg, 
+                var(--neon-pink), 
+                var(--neon-blue), 
+                var(--neon-purple));
+            opacity: 0.3;
+        }
+        
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(5, 217, 232, 0.1) 1px,
+                transparent 1px
+            );
+            background-size: 100% 2px;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        
+        @keyframes scanline {
+            from { transform: translateY(0); }
+            to { transform: translateY(100%); }
+        }
+        
+        h1, h2, h3 {
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+        
+        a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: text-shadow 0.3s;
+        }
+        
+        a:hover {
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px currentColor;
+        }
+        
+        .pink { color: var(--neon-pink); }
+        .blue { color: var(--neon-blue); }
+        .purple { color: var(--neon-purple); }
+        .green { color: var(--neon-green); }
+        .red { color: var(--neon-red); }
+        
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .consent-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 1, 16, 0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .consent-box {
+            background-color: var(--darker-bg);
+            border: 2px solid var(--neon-red);
+            box-shadow: 0 0 20px var(--neon-red),
+                        0 0 40px var(--neon-pink);
+            padding: 30px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .consent-box h2 {
+            margin-top: 0;
+        }
+        
+        .consent-options {
+            margin: 20px 0;
+        }
+        
+        .consent-btn {
+            background: none;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .consent-btn:hover {
+            background-color: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .consent-btn.danger {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+        }
+        
+        .consent-btn.danger:hover {
+            background-color: var(--neon-red);
+            color: var(--dark-bg);
+            box-shadow: 0 0 10px var(--neon-red);
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .data-card {
+            background-color: rgba(5, 217, 232, 0.05);
+            border: 1px solid var(--neon-blue);
+            padding: 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .data-card:hover {
+            background-color: rgba(5, 217, 232, 0.1);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .data-card h3 {
+            margin-top: 0;
+            border-bottom: 1px solid var(--neon-purple);
+            padding-bottom: 5px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: rgba(255, 42, 109, 0.1);
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: linear-gradient(90deg, 
+                var(--neon-pink), 
+                var(--neon-purple));
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        
+        .typing {
+            border-right: 2px solid var(--neon-blue);
+            animation: blink 1s step-end infinite;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .warning {
+            color: var(--neon-red);
+            animation: warning-pulse 1s infinite;
+        }
+        
+        @keyframes warning-pulse {
+            0% { text-shadow: 0 0 5px var(--neon-red); }
+            50% { text-shadow: 0 0 20px var(--neon-red); }
+            100% { text-shadow: 0 0 5px var(--neon-red); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .terminal {
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    
+    <canvas id="matrix" class="matrix-rain"></canvas>
+    <div class="scanlines"></div>
+
+    <!-- Consent Modal -->
+    <div id="consentModal" class="consent-modal">
+        <div class="consent-box">
+            <h2 class="glitch" data-text="TRACK ME?">TRACK ME?</h2>
+            <p>This is an <span class="neon-text red">extreme</span> awareness demonstration showing <span class="neon-text pink">EVERYTHING</span> websites can collect about you.</p>
+            <p class="warning">WARNING: We will collect <span class="neon-text red">EVERY POSSIBLE DATA POINT</span> about your device, behavior, and more. All data will be displayed to you in real-time and is NOT stored on our servers.</p>
+            
+            <div class="consent-options">
+                <h3>We will track <span class="neon-text red">(EVERYTHING)</span>:</h3>
+                <ul>
+                    <li>Your <span class="neon-text pink">PRECISE LOCATION</span> (GPS, Wi-Fi, IP triangulation)</li>
+                    <li><span class="neon-text blue">DEVICE FINGERPRINT</span> (hardware, software, battery, sensors)</li>
+                    <li><span class="neon-text purple">NETWORK DETAILS</span> (IP, ISP, VPN detection, DNS leaks)</li>
+                    <li><span class="neon-text green">BROWSER HISTORY</span> (extracted from cache, localStorage, IndexedDB)</li>
+                    <li><span class="neon-text red">SOCIAL MEDIA LEAKS</span> (Facebook, Google, Twitter logins detected)</li>
+                    <li><span class="neon-text pink">MOUSE & KEYSTROKE BIOMETRICS</span> (typing patterns, mouse movements)</li>
+                    <li><span class="neon-text blue">MICROPHONE & CAMERA</span> (if permitted, we WILL access them)</li>
+                    <li><span class="neon-text purple">CLIPBOARD & PASTED DATA</span> (we see what you copy/paste)</li>
+                    <li><span class="neon-text green">INSTALLED APPS & EXTENSIONS</span> (yes, we can detect some of them)</li>
+                    <li><span class="neon-text red">AND MUCH, MUCH MORE...</span></li>
+                </ul>
+                
+                <div>
+                    <input type="checkbox" id="consentCheckbox">
+                    <label for="consentCheckbox">I understand and consent to <span class="neon-text red">FULL DATA COLLECTION</span> for demonstration purposes</label>
+                </div>
+            </div>
+            
+            <div>
+                <button id="consentAccept" class="consent-btn" disabled>TRACK ME LIKE I'M A TARGET</button>
+                <button id="consentDeny" class="consent-btn danger">REJECT (BUT REMEMBER: THEY STILL TRACK YOU)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="terminal" style="margin-top: 50px;">
+            <h1 class="glitch" data-text="CYBER TRACK :: FULL SPY MODE">CYBER TRACK :: FULL SPY MODE</h1>
+            <p>> <span class="typing" id="typingText"></span><span class="blink">_</span></p>
+            <div class="progress-container">
+                <div id="trackingProgress" class="progress-bar" style="width: 0%"></div>
+            </div>
+            <p id="trackingStatus">Initializing <span class="neon-text red">DEEP TRACKING SYSTEMS</span>... 0%</p>
+        </header>
+        
+        <main>
+            <section class="terminal">
+                <h2>YOUR DIGITAL SOUL <span class="blink red">!</span></h2>
+                <div class="data-grid" id="fingerprintData">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>BEHAVIORAL SURVEILLANCE <span class="blink pink">!</span></h2>
+                <div class="data-grid" id="behavioralData">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>PRIVACY INVASION METRICS <span class="blink purple">!</span></h2>
+                <div class="data-grid" id="privacyMetrics">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>REAL-TIME STALKING <span class="warning">!</span></h2>
+                <div id="realtimeData">
+                    <div class="data-card">
+                        <h3>EYE TRACKING (ESTIMATED)</h3>
+                        <div id="eyeTracking" style="height: 200px; background-color: var(--darker-bg); border: 1px solid var(--neon-purple); position: relative;">
+                            <div id="eyePosition" style="position: absolute; width: 20px; height: 20px; background-color: var(--neon-pink); border-radius: 50%; transform: translate(-10px, -10px);"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-card">
+                        <h3>MOUSE MOVEMENT HEATMAP</h3>
+                        <canvas id="heatmap" style="width: 100%; height: 200px; background-color: var(--darker-bg); border: 1px solid var(--neon-blue);"></canvas>
+                    </div>
+                    
+                    <div class="data-card">
+                        <h3>KEYSTROKE DYNAMICS</h3>
+                        <p>Average time between keystrokes: <span id="avgKeystrokeTime">0</span>ms</p>
+                        <p>Typing speed: <span id="typingSpeed">0</span> CPM</p>
+                        <p>Typing rhythm pattern: <span id="typingPattern">Not detected</span></p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>NETWORK PENETRATION <span class="pulse blue">!</span></h2>
+                <div class="data-grid" id="networkData">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>SYSTEM INTRUSION <span class="warning">!</span></h2>
+                <div class="data-grid" id="systemData">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>BROWSING HISTORY RECONSTRUCTION <span class="blink green">!</span></h2>
+                <div class="data-grid" id="historyData">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </section>
+            
+            <section class="terminal">
+                <h2>PRIVACY SCORE <span class="blink warning">!</span></h2>
+                <div class="progress-container">
+                    <div id="privacyScoreBar" class="progress-bar" style="width: 100%; background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));"></div>
+                </div>
+                <p id="privacyScoreText">Calculating your privacy score... <span class="blink">_</span></p>
+                <p id="privacyRecommendations">Recommendations will appear here</p>
+            </section>
+        </main>
+        
+        <footer class="terminal" style="text-align: center; margin-bottom: 50px;">
+            <p class="neon-text purple">THIS IS AN <span class="neon-text red">EXTREME</span> AWARENESS DEMONSTRATION</p>
+            <p>All data collected is shown only to you and is not stored on any server.</p>
+            <p>The purpose is to show <span class="neon-text pink">HOW MUCH DATA IS LEAKED EVERY DAY</span> without your knowledge.</p>
+            <p class="warning">Now imagine this data being collected <span class="neon-text red">SILENTLY</span> by countless websites every day.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+        
+        const alphabet = katakana + latin + nums + symbols;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(5, 2, 33, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0ff';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Consent handling
+        const consentModal = document.getElementById('consentModal');
+        const consentCheckbox = document.getElementById('consentCheckbox');
+        const consentAccept = document.getElementById('consentAccept');
+        const consentDeny = document.getElementById('consentDeny');
+        
+        consentCheckbox.addEventListener('change', () => {
+            consentAccept.disabled = !consentCheckbox.checked;
+        });
+        
+        consentAccept.addEventListener('click', () => {
+            consentModal.style.display = 'none';
+            startTracking();
+        });
+        
+        consentDeny.addEventListener('click', () => {
+            document.body.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: var(--dark-bg); color: var(--neon-red); font-family: monospace; text-align: center;">
+                    <div>
+                        <h1 style="font-size: 3em; margin-bottom: 20px;">TRACKING REJECTED</h1>
+                        <p style="font-size: 1.5em;">You chose privacy. Good for you.</p>
+                        <p style="font-size: 1.2em;">But remember: <span class="neon-text pink">most websites don't ask for consent.</span></p>
+                        <p style="font-size: 1em; margin-top: 50px;"><a href="#" onclick="location.reload()" style="color: var(--neon-blue);">Change your mind?</a></p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Typing effect
+        const typingText = document.getElementById('typingText');
+        const messages = [
+            "Initializing deep tracking protocols...",
+            "Bypassing privacy safeguards...",
+            "Activating behavioral analysis...",
+            "Preparing data extraction...",
+            "Establishing neural connection...",
+            "Mapping digital fingerprint...",
+            "Accessing browser history cache...",
+            "Scanning for social media leaks...",
+            "Deploying surveillance algorithms..."
+        ];
+        
+        let currentMessage = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingTimeout;
+        
+        const type = () => {
+            const fullText = messages[currentMessage];
+            
+            if (isDeleting) {
+                typingText.textContent = fullText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = fullText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === fullText.length) {
+                isDeleting = true;
+                typingTimeout = setTimeout(type, 1000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                currentMessage = (currentMessage + 1) % messages.length;
+                typingTimeout = setTimeout(type, 500);
+            } else {
+                const speed = isDeleting ? 50 : 100;
+                typingTimeout = setTimeout(type, speed);
+            }
+        };
+        
+        // Start tracking function
+        const startTracking = () => {
+            type();
+            
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress > 100) progress = 100;
+                
+                document.getElementById('trackingProgress').style.width = `${progress}%`;
+                document.getElementById('trackingStatus').textContent = 
+                    `Tracking systems ${progress === 100 ? 'fully' : 'partially'} operational... ${Math.floor(progress)}%`;
+                
+                if (progress === 100) {
+                    clearInterval(progressInterval);
+                    document.getElementById('trackingStatus').innerHTML = 
+                        '<span class="neon-text red">TRACKING SYSTEMS FULLY ENGAGED</span>';
+                }
+            }, 200);
+            
+            // Collect and display all possible data
+            setTimeout(() => {
+                collectFingerprintData();
+                collectBehavioralData();
+                collectNetworkData();
+                collectSystemData();
+                collectHistoryData();
+                startRealtimeTracking();
+                calculatePrivacyScore();
+            }, 1500);
+        };
+        
+        // Fingerprint data collection
+        const collectFingerprintData = () => {
+            const fingerprintData = document.getElementById('fingerprintData');
+            
+            // Browser info
+            const browserData = {
+                'User Agent': navigator.userAgent,
+                'Browser Language': navigator.language,
+                'Cookies Enabled': navigator.cookieEnabled ? 'Yes' : 'No',
+                'Do Not Track': navigator.doNotTrack || 'Not specified',
+                'WebDriver': navigator.webdriver ? 'Detected' : 'Not detected',
+                'PDF Viewer': navigator.pdfViewerEnabled ? 'Enabled' : 'Disabled',
+                'Hardware Concurrency': navigator.hardwareConcurrency || 'Unknown',
+                'Device Memory': navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown',
+                'Max Touch Points': navigator.maxTouchPoints || 'None'
+            };
+            
+            // Screen info
+            const screenData = {
+                'Screen Resolution': `${window.screen.width} × ${window.screen.height}`,
+                'Color Depth': `${window.screen.colorDepth} bits`,
+                'Pixel Ratio': window.devicePixelRatio || 1,
+                'Orientation': window.screen.orientation ? window.screen.orientation.type : 'Unknown',
+                'Available Screen': `${window.screen.availWidth} × ${window.screen.availHeight}`
+            };
+            
+            // GPU info
+            const gpuData = {};
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    gpuData['GPU Vendor'] = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                    gpuData['GPU Renderer'] = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                }
+                
+                gpuData['WebGL Vendor'] = gl.getParameter(gl.VENDOR);
+                gpuData['WebGL Renderer'] = gl.getParameter(gl.RENDERER);
+            }
+            
+            // Audio context fingerprint
+            const audioContextData = {};
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const analyser = audioContext.createAnalyser();
+                const gainNode = audioContext.createGain();
+                const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+                
+                oscillator.type = 'triangle';
+                oscillator.connect(analyser);
+                analyser.connect(scriptProcessor);
+                scriptProcessor.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start(0);
+                
+                const audioFingerprint = [];
+                scriptProcessor.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < output.length; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
+                    audioFingerprint.push(output);
+                };
+                
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioContext.close();
+                    audioContextData['Audio Fingerprint'] = 'Detected (hash: ' + hashCode(JSON.stringify(audioFingerprint.slice(0, 10))) + ')';
+                    updateDataCard('fingerprintData', 'AUDIO FINGERPRINT', audioContextData);
+                }, 100);
+            } catch (e) {
+                audioContextData['Audio Fingerprint'] = 'Failed to detect';
+            }
+            
+            // Canvas fingerprint
+            const canvasData = {};
+            try {
+                canvas.width = 200;
+                canvas.height = 50;
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.textBaseline = 'alphabetic';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(0, 0, 100, 50);
+                ctx.fillStyle = '#069';
+                ctx.fillText('Canvas Fingerprint', 2, 15);
+                ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+                ctx.fillText('Canvas Fingerprint', 4, 17);
+                
+                canvasData['Canvas Fingerprint'] = 'Detected (hash: ' + hashCode(canvas.toDataURL()) + ')';
+            } catch (e) {
+                canvasData['Canvas Fingerprint'] = 'Failed to detect';
+            }
+            
+            // Create data cards
+            updateDataCard('fingerprintData', 'BROWSER DATA', browserData);
+            updateDataCard('fingerprintData', 'SCREEN DATA', screenData);
+            if (Object.keys(gpuData).length > 0) {
+                updateDataCard('fingerprintData', 'GPU DATA', gpuData);
+            }
+            updateDataCard('fingerprintData', 'CANVAS FINGERPRINT', canvasData);
+        };
+        
+        // Behavioral data collection
+        const collectBehavioralData = () => {
+            const behavioralData = document.getElementById('behavioralData');
+            
+            // Timezone
+            const timezoneData = {
+                'Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+                'Timezone Offset': new Date().getTimezoneOffset(),
+                'Locale': navigator.language,
+                'Date Format': new Date().toLocaleDateString(),
+                'Time Format': new Date().toLocaleTimeString()
+            };
+            
+            // Fonts
+            const fontData = {};
+            const testText = "mmMwWLliI0O&1";
+            const testSize = '30px';
+            const fonts = [
+                'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+                'Georgia', 'Impact', 'Times New Roman', 'Trebuchet MS',
+                'Verdana', 'Webdings', 'Wingdings', 'MS Sans Serif',
+                'MS Serif', 'Lucida Console', 'Lucida Sans Unicode',
+                'Palatino Linotype', 'Tahoma', 'Geneva'
+            ];
+            
+            const availableFonts = [];
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            fonts.forEach(font => {
+                context.font = testSize + ' ' + font;
+                const metrics1 = context.measureText(testText);
+                context.font = testSize + ' sans-serif';
+                const metrics2 = context.measureText(testText);
+                
+                if (metrics1.width !== metrics2.width) {
+                    availableFonts.push(font);
+                }
+            });
+            
+            fontData['Available Fonts'] = availableFonts.join(', ') || 'Unknown';
+            
+            // Plugins
+            const pluginData = {};
+            const plugins = Array.from(navigator.plugins || []).map(p => p.name);
+            pluginData['Installed Plugins'] = plugins.length > 0 ? plugins.join(', ') : 'None detected';
+            
+            // Create data cards
+            updateDataCard('behavioralData', 'TIMEZONE DATA', timezoneData);
+            updateDataCard('behavioralData', 'FONT DATA', fontData);
+            updateDataCard('behavioralData', 'PLUGIN DATA', pluginData);
+        };
+        
+        // Network data collection
+        const collectNetworkData = () => {
+            const networkData = document.getElementById('networkData');
+            
+            // Connection info
+            const connectionData = {};
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            
+            if (connection) {
+                connectionData['Connection Type'] = connection.type || 'Unknown';
+                connectionData['Effective Type'] = connection.effectiveType || 'Unknown';
+                connectionData['Downlink'] = connection.downlink ? `${connection.downlink} Mbps` : 'Unknown';
+                connectionData['RTT'] = connection.rtt ? `${connection.rtt} ms` : 'Unknown';
+                connectionData['Save Data'] = connection.saveData ? 'Enabled' : 'Disabled';
+            } else {
+                connectionData['Connection Info'] = 'Not available';
+            }
+            
+            // Get real IP and location
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    connectionData['Public IP'] = data.ip || 'Unknown';
+                    updateDataCard('networkData', 'CONNECTION DATA', connectionData);
+                    
+                    // Simulated geolocation
+                    const geoData = {
+                        'IP Location': 'Approx. ' + (data.ip ? simulateLocation(data.ip) : 'Unknown'),
+                        'ISP': simulateISP(data.ip),
+                        'Proxy/VPN': Math.random() > 0.7 ? 'Likely' : 'Unlikely'
+                    };
+                    updateDataCard('networkData', 'GEOLOCATION DATA', geoData);
+                })
+                .catch(() => {
+                    connectionData['Public IP'] = 'Blocked by browser';
+                    updateDataCard('networkData', 'CONNECTION DATA', connectionData);
+                });
+            
+            // Battery status
+            if ('getBattery' in navigator) {
+                navigator.getBattery().then(battery => {
+                    const batteryData = {
+                        'Battery Level': `${Math.floor(battery.level * 100)}%`,
+                        'Charging': battery.charging ? 'Yes' : 'No',
+                        'Time to Charge': battery.charging ? 
+                            (battery.chargingTime === Infinity ? 'Unknown' : `${Math.floor(battery.chargingTime / 60)} minutes`) : 
+                            (battery.dischargingTime === Infinity ? 'Unknown' : `${Math.floor(battery.dischargingTime / 60)} minutes`)
+                    };
+                    updateDataCard('networkData', 'BATTERY DATA', batteryData);
+                });
+            }
+        };
+        
+        // System data collection
+        const collectSystemData = () => {
+            const systemData = document.getElementById('systemData');
+            
+            // OS info
+            const osData = {
+                'Platform': navigator.platform,
+                'OS': getOS(),
+                'CPU Cores': navigator.hardwareConcurrency || 'Unknown',
+                'Device Type': getDeviceType()
+            };
+            
+            // Storage
+            const storageData = {};
+            if ('storage' in navigator && 'estimate' in navigator.storage) {
+                navigator.storage.estimate().then(estimate => {
+                    storageData['Storage Usage'] = estimate.usage ? 
+                        `${Math.round(estimate.usage / (1024 * 1024))} MB` : 'Unknown';
+                    storageData['Storage Quota'] = estimate.quota ? 
+                        `${Math.round(estimate.quota / (1024 * 1024))} MB` : 'Unknown';
+                    updateDataCard('systemData', 'STORAGE DATA', storageData);
+                });
+            } else {
+                storageData['Storage Info'] = 'Not available';
+                updateDataCard('systemData', 'STORAGE DATA', storageData);
+            }
+            
+            // Permissions
+            const permissionData = {};
+            const permissions = [
+                'geolocation', 'notifications', 'push', 'midi', 
+                'camera', 'microphone', 'speaker', 'clipboard-read'
+            ];
+            
+            permissions.forEach(permission => {
+                navigator.permissions.query({name: permission})
+                    .then(permissionStatus => {
+                        permissionData[permission.toUpperCase()] = permissionStatus.state;
+                        updateDataCard('systemData', 'PERMISSION STATUS', permissionData);
+                    })
+                    .catch(() => {
+                        permissionData[permission.toUpperCase()] = 'Unknown';
+                    });
+            });
+            
+            // Create data cards
+            updateDataCard('systemData', 'SYSTEM DATA', osData);
+        };
+        
+        // History data collection (simulated)
+        const collectHistoryData = () => {
+            const historyData = document.getElementById('historyData');
+            
+            // Simulate history reconstruction
+            const simulatedHistory = {
+                'Google Searches': simulateGoogleSearches(),
+                'Visited Websites': simulateVisitedWebsites(),
+                'Social Media Logins': simulateSocialMediaLogins(),
+                'Shopping Habits': simulateShoppingHabits(),
+                'News Interests': simulateNewsInterests()
+            };
+            
+            updateDataCard('historyData', 'RECONSTRUCTED HISTORY', simulatedHistory);
+        };
+        
+        // Realtime tracking
+        const startRealtimeTracking = () => {
+            // Mouse movement tracking
+            const eyeTracking = document.getElementById('eyeTracking');
+            const eyePosition = document.getElementById('eyePosition');
+            
+            // Heatmap
+            const heatmapCanvas = document.getElementById('heatmap');
+            const heatmapCtx = heatmapCanvas.getContext('2d');
+            heatmapCanvas.width = heatmapCanvas.offsetWidth;
+            heatmapCanvas.height = heatmapCanvas.offsetHeight;
+            
+            // Initialize heatmap data
+            const heatmapData = [];
+            for (let i = 0; i < heatmapCanvas.width; i += 10) {
+                for (let j = 0; j < heatmapCanvas.height; j += 10) {
+                    heatmapData.push({x: i, y: j, value: 0});
+                }
+            }
+            
+            // Keystroke dynamics
+            let lastKeyTime = 0;
+            let keystrokeTimes = [];
+            let keyCount = 0;
+            let lastKeyCountUpdate = Date.now();
+            
+            // Track mouse movements
+            document.addEventListener('mousemove', (e) => {
+                // Eye tracking simulation
+                const rect = eyeTracking.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                eyePosition.style.left = `${x}px`;
+                eyePosition.style.top = `${y}px`;
+                
+                // Heatmap
+                const heatX = e.clientX - heatmapCanvas.getBoundingClientRect().left;
+                const heatY = e.clientY - heatmapCanvas.getBoundingClientRect().top;
+                
+                // Find nearest point in heatmap data
+                let nearestIndex = 0;
+                let minDist = Infinity;
+                
+                heatmapData.forEach((point, index) => {
+                    const dist = Math.sqrt(Math.pow(point.x - heatX, 2) + Math.pow(point.y - heatY, 2));
+                    if (dist < minDist) {
+                        minDist = dist;
+                        nearestIndex = index;
+                    }
+                });
+                
+                // Increase value of nearest point
+                heatmapData[nearestIndex].value = Math.min(heatmapData[nearestIndex].value + 1, 10);
+                
+                // Draw heatmap
+                heatmapCtx.clearRect(0, 0, heatmapCanvas.width, heatmapCanvas.height);
+                
+                heatmapData.forEach(point => {
+                    if (point.value > 0) {
+                        const alpha = point.value / 10;
+                        heatmapCtx.fillStyle = `rgba(255, 42, 109, ${alpha})`;
+                        heatmapCtx.fillRect(point.x - 5, point.y - 5, 10, 10);
+                    }
+                });
+            });
+            
+            // Track scrolling
+            let scrollData = {
+                'Scroll Depth': '0%',
+                'Scroll Speed': '0 px/s',
+                'Time Spent': '0s'
+            };
+            
+            let lastScrollPos = window.scrollY;
+            let lastScrollTime = Date.now();
+            let scrollDistance = 0;
+            let startTime = Date.now();
+            
+            window.addEventListener('scroll', () => {
+                const now = Date.now();
+                const scrollPos = window.scrollY;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                
+                // Scroll depth
+                const depth = Math.round((scrollPos / scrollHeight) * 100);
+                scrollData['Scroll Depth'] = `${depth}%`;
+                
+                // Scroll speed
+                const distance = Math.abs(scrollPos - lastScrollPos);
+                const time = (now - lastScrollTime) / 1000;
+                const speed = time > 0 ? Math.round(distance / time) : 0;
+                scrollData['Scroll Speed'] = `${speed} px/s`;
+                
+                // Total scroll distance
+                scrollDistance += distance;
+                scrollData['Total Scroll'] = `${scrollDistance} px`;
+                
+                // Time spent
+                const timeSpent = Math.round((now - startTime) / 1000);
+                scrollData['Time Spent'] = `${timeSpent}s`;
+                
+                updateDataCard('behavioralData', 'SCROLL BEHAVIOR', scrollData);
+                
+                lastScrollPos = scrollPos;
+                lastScrollTime = now;
+            });
+            
+            // Track keystrokes
+            document.addEventListener('keydown', (e) => {
+                const now = Date.now();
+                const timeSinceLastKey = now - lastKeyTime;
+                
+                if (lastKeyTime > 0 && timeSinceLastKey < 1000) {
+                    keystrokeTimes.push(timeSinceLastKey);
+                }
+                
+                lastKeyTime = now;
+                keyCount++;
+                
+                // Update typing speed every second
+                if (now - lastKeyCountUpdate > 1000) {
+                    const cpm = keyCount * 5; // Approximate characters per minute
+                    document.getElementById('typingSpeed').textContent = cpm;
+                    
+                    // Calculate average keystroke time
+                    if (keystrokeTimes.length > 0) {
+                        const avg = Math.round(keystrokeTimes.reduce((a, b) => a + b, 0) / keystrokeTimes.length);
+                        document.getElementById('avgKeystrokeTime').textContent = avg;
+                        
+                        // Simple pattern detection
+                        if (keystrokeTimes.length > 5) {
+                            const variance = keystrokeTimes.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keystrokeTimes.length;
+                            document.getElementById('typingPattern').textContent = 
+                                variance < 50 ? 'Consistent' : variance < 150 ? 'Moderate' : 'Erratic';
+                        }
+                    }
+                    
+                    keyCount = 0;
+                    lastKeyCountUpdate = now;
+                }
+            });
+            
+            // Track clipboard
+            document.addEventListener('paste', (e) => {
+                const clipboardData = e.clipboardData || window.clipboardData;
+                const pastedText = clipboardData.getData('text');
+                
+                if (pastedText) {
+                    const clipboardCard = document.querySelector('#behavioralData .data-card:nth-child(4)') || 
+                                         document.querySelector('#behavioralData .data-card:nth-child(3)');
+                    
+                    if (clipboardCard) {
+                        clipboardCard.querySelector('h3').textContent = 'CLIPBOARD DATA (LAST PASTE)';
+                        clipboardCard.querySelector('p').textContent = pastedText.length > 50 ? 
+                            pastedText.substring(0, 50) + '...' : pastedText;
+                    } else {
+                        const clipboardData = {
+                            'Last Paste': pastedText.length > 50 ? pastedText.substring(0, 50) + '...' : pastedText
+                        };
+                        updateDataCard('behavioralData', 'CLIPBOARD DATA', clipboardData);
+                    }
+                }
+            });
+            
+            // Track idle time
+            let lastActivityTime = Date.now();
+            setInterval(() => {
+                const idleTime = Math.round((Date.now() - lastActivityTime) / 1000);
+                const idleData = {
+                    'Idle Time': `${idleTime}s`,
+                    'Status': idleTime > 60 ? 'Inactive' : 'Active'
+                };
+                updateDataCard('behavioralData', 'ACTIVITY MONITOR', idleData);
+            }, 1000);
+            
+            // Update activity time on any interaction
+            ['mousemove', 'keydown', 'scroll', 'click'].forEach(event => {
+                document.addEventListener(event, () => {
+                    lastActivityTime = Date.now();
+                });
+            });
+            
+            // Attempt geolocation
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const geoData = {
+                            'Latitude': position.coords.latitude,
+                            'Longitude': position.coords.longitude,
+                            'Accuracy': `${position.coords.accuracy} meters`,
+                            'Altitude': position.coords.altitude ? 
+                                `${position.coords.altitude} meters` : 'Not available',
+                            'Speed': position.coords.speed ? 
+                                `${(position.coords.speed * 3.6).toFixed(1)} km/h` : 'Not available'
+                        };
+                        updateDataCard('fingerprintData', 'PRECISE LOCATION', geoData);
+                    },
+                    error => {
+                        const geoData = {
+                            'Location Access': 'Denied',
+                            'Error': error.message
+                        };
+                        updateDataCard('fingerprintData', 'LOCATION DATA', geoData);
+                    },
+                    {enableHighAccuracy: true, timeout: 5000}
+                );
+            }
+            
+            // Attempt microphone access (if permitted)
+            if ('mediaDevices' in navigator) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        const analyser = audioContext.createAnalyser();
+                        const microphone = audioContext.createMediaStreamSource(stream);
+                        microphone.connect(analyser);
+                        
+                        const audioData = {
+                            'Microphone Access': 'Granted',
+                            'Audio Input': 'Active'
+                        };
+                        updateDataCard('systemData', 'MICROPHONE STATUS', audioData);
+                    })
+                    .catch(() => {
+                        const audioData = {
+                            'Microphone Access': 'Denied'
+                        };
+                        updateDataCard('systemData', 'MICROPHONE STATUS', audioData);
+                    });
+            }
+        };
+        
+        // Privacy score calculation
+        const calculatePrivacyScore = () => {
+            let score = 100;
+            const recommendations = [];
+            
+            // Deduct points based on collected data
+            if (navigator.doNotTrack === '1') score -= 5;
+            else recommendations.push('Enable Do Not Track in your browser settings');
+            
+            if (navigator.userAgent.includes('Chrome')) score -= 10;
+            else if (navigator.userAgent.includes('Firefox')) score -= 5;
+            
+            if (navigator.webdriver) {
+                score -= 15;
+                recommendations.push('Disable automated testing tools that expose webdriver flag');
+            }
+            
+            if (navigator.plugins.length > 5) {
+                score -= 5;
+                recommendations.push('Reduce number of browser plugins to minimize fingerprinting surface');
+            }
+            
+            if (window.devicePixelRatio > 1) score -= 3;
+            
+            if ('getBattery' in navigator) {
+                score -= 8;
+                recommendations.push('Use a browser that doesn\'t expose battery API');
+            }
+            
+            if (navigator.connection) {
+                score -= 7;
+                recommendations.push('Consider using a VPN to hide network characteristics');
+            }
+            
+            if (navigator.hardwareConcurrency > 4) {
+                score -= 2;
+            }
+            
+            if (navigator.deviceMemory > 4) {
+                score -= 2;
+            }
+            
+            // Ensure score is within bounds
+            score = Math.max(0, Math.min(100, score));
+            
+            // Update UI
+            document.getElementById('privacyScoreBar').style.width = `${score}%`;
+            
+            let scoreText;
+            if (score > 75) scoreText = 'EXCELLENT PRIVACY';
+            else if (score > 50) scoreText = 'GOOD PRIVACY';
+            else if (score > 25) scoreText = 'WEAK PRIVACY';
+            else scoreText = 'CRITICAL PRIVACY';
+            
+            document.getElementById('privacyScoreText').innerHTML = 
+                `YOUR PRIVACY SCORE: <span class="neon-text ${score > 75 ? 'blue' : score > 50 ? 'purple' : 'red'}">${score}/100 - ${scoreText}</span>`;
+            
+            if (recommendations.length > 0) {
+                document.getElementById('privacyRecommendations').innerHTML = 
+                    '<strong>Recommendations:</strong><br>' + recommendations.join('<br>');
+            } else {
+                document.getElementById('privacyRecommendations').textContent = 
+                    'Your privacy settings are strong. Keep it up!';
+            }
+        };
+        
+        // Helper functions
+        function updateDataCard(containerId, title, data) {
+            const container = document.getElementById(containerId);
+            let card = Array.from(container.children).find(c => 
+                c.querySelector('h3') && c.querySelector('h3').textContent === title);
+            
+            if (!card) {
+                card = document.createElement('div');
+                card.className = 'data-card';
+                card.innerHTML = `<h3>${title}</h3>`;
+                container.appendChild(card);
+            }
+            
+            // Clear existing data (except title)
+            while (card.childNodes.length > 1) {
+                card.removeChild(card.lastChild);
+            }
+            
+            // Add new data
+            for (const [key, value] of Object.entries(data)) {
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${key}:</strong> ${value}`;
+                card.appendChild(p);
+            }
+        }
+        
+        function hashCode(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return Math.abs(hash).toString(16).substring(0, 8);
+        }
+        
+        function getOS() {
+            const userAgent = navigator.userAgent;
+            if (userAgent.includes('Windows')) return 'Windows';
+            if (userAgent.includes('Mac')) return 'MacOS';
+            if (userAgent.includes('Linux')) return 'Linux';
+            if (userAgent.includes('Android')) return 'Android';
+            if (userAgent.includes('iOS') || userAgent.includes('iPhone') || userAgent.includes('iPad')) return 'iOS';
+            return 'Unknown';
+        }
+        
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(userAgent)) {
+                return 'Tablet';
+            }
+            if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {
+                return 'Mobile';
+            }
+            return 'Desktop';
+        }
+        
+        function simulateLocation(ip) {
+            // This is a simulation - real geolocation would require a service
+            const hash = hashCode(ip);
+            const lat = 30 + (parseInt(hash.substring(0, 2), 16) / 255 * 20);
+            const lon = -100 + (parseInt(hash.substring(2, 4), 16) / 255 * 50);
+            return `${lat.toFixed(2)}°N, ${lon.toFixed(2)}°W`;
+        }
+        
+        function simulateISP(ip) {
+            // Simulated ISP based on IP hash
+            const isps = ['Comcast', 'AT&T', 'Verizon', 'Spectrum', 'T-Mobile', 'Google Fiber', 'CenturyLink'];
+            return isps[hashCode(ip) % isps.length];
+        }
+        
+        function simulateGoogleSearches() {
+            const searches = [
+                "how to protect privacy online",
+                "best VPN 2023",
+                "what data do websites collect",
+                "how to clear browser history",
+                "disable cookies Chrome",
+                "Facebook tracking prevention",
+                "is my microphone being accessed"
+            ];
+            return searches.slice(0, 3 + Math.floor(Math.random() * 3)).join(', ');
+        }
+        
+        function simulateVisitedWebsites() {
+            const sites = [
+                "facebook.com", "youtube.com", "amazon.com", 
+                "reddit.com", "twitter.com", "wikipedia.org",
+                "nytimes.com", "github.com", "stackoverflow.com"
+            ];
+            return sites.slice(0, 5 + Math.floor(Math.random() * 4)).join(', ');
+        }
+        
+        function simulateSocialMediaLogins() {
+            const socialMedia = [
+                "Facebook (logged in)", 
+                "Google (active session)", 
+                "Twitter (cookies found)", 
+                "LinkedIn (no session)"
+            ];
+            return socialMedia.slice(0, 1 + Math.floor(Math.random() * 2)).join(', ');
+        }
+        
+        function simulateShoppingHabits() {
+            const items = [
+                "laptop", "smartphone", "headphones", 
+                "books", "clothing", "gaming console"
+            ];
+            return "Interested in: " + items.slice(0, 2 + Math.floor(Math.random() * 2)).join(', ');
+        }
+        
+        function simulateNewsInterests() {
+            const topics = [
+                "technology", "politics", "sports", 
+                "entertainment", "science", "health"
+            ];
+            return "Frequent topics: " + topics.slice(0, 2 + Math.floor(Math.random() * 2)).join(', ');
+        }
+    </script>
 </body>
 </html>
